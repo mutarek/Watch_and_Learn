@@ -39,5 +39,7 @@ dependencies {
 
     //multidex
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
 }
 apply plugin: 'com.google.gms.google-services'
