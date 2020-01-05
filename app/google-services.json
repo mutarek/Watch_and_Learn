@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "317108223674",
+    "firebase_url": "https://watch-and-learn-c33a1.firebaseio.com",
+    "project_id": "watch-and-learn-c33a1",
+    "storage_bucket": "watch-and-learn-c33a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317108223674:android:a57841a93c35cac3790c83",
+        "android_client_info": {
+          "package_name": "com.bdsoftwaresolution.watchandlearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317108223674-g6d346gmitb163v8amc4dorpmvnn3k1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bdsoftwaresolution.watchandlearn",
+            "certificate_hash": "673d013181bea3fe52c70609abd9711cd57fb31c"
+          }
+        },
+        {
+          "client_id": "317108223674-062j2gilo0obcujijv09etvdn7tq2gnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdGdo_eigTGb-EpRCjVXkDKQMOd7irgls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317108223674-062j2gilo0obcujijv09etvdn7tq2gnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
