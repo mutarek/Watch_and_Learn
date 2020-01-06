@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,11 +25,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -41,6 +45,7 @@ public class SIgnUpActivity extends AppCompatActivity {
     String IMEINumber;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference emiref = db.collection("IMEI");
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class SIgnUpActivity extends AppCompatActivity {
                     pass.setFocusable(true);
                 } else {
                     signupwith(semail, spass);
+                    progressDialog.show();
                 }
             }
         });
@@ -71,12 +77,7 @@ public class SIgnUpActivity extends AppCompatActivity {
     }
 
     private void checkEMIExistornot() {
-        emiref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                
-            }
-        });
+
     }
 
     private void signupwith(String semail, String spass) {
@@ -91,6 +92,7 @@ public class SIgnUpActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Toasty.error(SIgnUpActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT).show();
             }
         });
@@ -102,6 +104,8 @@ public class SIgnUpActivity extends AppCompatActivity {
         email = findViewById(R.id.emailET);
         pass = findViewById(R.id.passET);
         signUp = findViewById(R.id.signUpBtn);
+        progressDialog = new ProgressDialog(this );
+        progressDialog.setTitle("Please Wait.........");
     }
 
     private void checkPermissionforEMI() {
@@ -137,17 +141,27 @@ public class SIgnUpActivity extends AppCompatActivity {
     private void uploadtoDB(String imeiNumber) {
         HashMap hashMap = new HashMap();
         hashMap.put("Imie_number", imeiNumber);
-        db.collection("IMEI").add(hashMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        emiref.document("INIE_NUMBER").set(emiref).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                Toasty.success(SIgnUpActivity.this, "IMIE Addedd", Toasty.LENGTH_SHORT).show();
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+        /*db.document().set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toasty.success(SIgnUpActivity.this,"Success added",Toasty.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toasty.error(SIgnUpActivity.this, "" + e.getMessage(), Toasty.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                Toasty.success(SIgnUpActivity.this,"error"+e.getMessage(),Toasty.LENGTH_SHORT).show();
             }
-        });
+        });*/
+
+
     }
 
 }
