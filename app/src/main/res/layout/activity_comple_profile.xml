@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.CompleProfileActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/completeprofilebg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/user_profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:src="@drawable/userprofile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <EditText
+                android:id="@+id/user_nameET"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Name:"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/white"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/user_numberET"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Number:"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/white"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/user_u_codeET"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Code:"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/white"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/user_refer_code"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Refer Code:"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/finishBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/buttonbg"
+                android:text="Finish"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
