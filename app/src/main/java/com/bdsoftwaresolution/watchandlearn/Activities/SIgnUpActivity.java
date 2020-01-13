@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,45 +97,19 @@ public class SIgnUpActivity extends AppCompatActivity {
         databaseReference.child("EMI").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String data = dataSnapshot.getValue().toString();
-                Toast.makeText(SIgnUpActivity.this, ""+data, Toast.LENGTH_SHORT).show();
-                if (data.contains(IMEINumber))
-                {
-                    Toast.makeText(SIgnUpActivity.this, "ime found", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(SIgnUpActivity.this, "data not found", Toast.LENGTH_SHORT).show();
+                String allvalue = dataSnapshot.getValue().toString();
+                if (allvalue.contains(IMEINumber)) {
+                    signUp.setVisibility(View.INVISIBLE);
+                    Toast.makeText(SIgnUpActivity.this, "You already have an account", Toast.LENGTH_SHORT).show();
+                } else {
+                    signUp.setVisibility(View.VISIBLE);
+                    Toast.makeText(SIgnUpActivity.this, "IMIE not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toasty.error(SIgnUpActivity.this,"Error"+databaseError.getMessage(),Toasty.LENGTH_SHORT).show();
-            }
-        });
-        emiref.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Toasty.error(SIgnUpActivity.this, "Error" + e.getMessage(), Toasty.LENGTH_SHORT).show();
-                    return;
-                }
 
-                List<String> cities = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    if (doc.get("No") != null) {
-                        String data = doc.getData().toString();
-                        if (data.contains(IMEINumber)) {
-                            Toast.makeText(SIgnUpActivity.this, "Data Matched", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SIgnUpActivity.this, "Data Not Matched", Toast.LENGTH_SHORT).show();
-                        }
-                        cities.add(doc.getString("name"));
-                        Toast.makeText(SIgnUpActivity.this, "" + doc.getData(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                //Log.d(TAG, "Current cites in CA: " + cities);
             }
         });
     }
@@ -222,4 +197,16 @@ public class SIgnUpActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Intent intent = new Intent(this,CompleProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Welcome to  BD Quiz", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

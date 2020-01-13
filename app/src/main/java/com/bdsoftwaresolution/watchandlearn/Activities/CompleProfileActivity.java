@@ -31,6 +31,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,8 +52,8 @@ public class CompleProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     String cUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String downloadUri;
-    Task<Uri> result;
+    Uri downloadUri;
+    Uri result;
 
 
     @Override
@@ -124,8 +125,10 @@ public class CompleProfileActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
+                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!urlTask.isSuccessful()) ;
+                            result = urlTask.getResult();
                             uploadAllInfotoDB();
-                            Toast.makeText(CompleProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -147,24 +150,28 @@ public class CompleProfileActivity extends AppCompatActivity {
     }
 
     private void uploadAllInfotoDB() {
-        HashMap hashMap = new HashMap();
+        Map<String,Object> hashMap = new HashMap<>();
+        hashMap.put("User_Profile_Picture", result);
         hashMap.put("User_Name", username);
         hashMap.put("User_Number", usernumber);
         hashMap.put("User_Code", usercode);
         hashMap.put("User_Refer", userRefer);
-        hashMap.put("User_Profile_Picture", result);
         db.collection("Users").document(cUser).set(hashMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(CompleProfileActivity.this, "Done", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(CompleProfileActivity.this, HomeActivity.class));
                         } else {
                             Toast.makeText(CompleProfileActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CompleProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
